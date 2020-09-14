@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>数据</title>
+    <script type="text/javascript" src="/bootstrap-3.3.7-dist/js/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <link href="/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <!--1、放置标题  -->
+    <div class="row">
+        <div class="page-header">
+            <h1>学生列表</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-10">
+            <button class="btn btn-info" id="stu_add_modal_btn">新增</button>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped" id="stus_table">
+                <thead>
+                <tr>
+                    <th>学号</th>
+                    <th>系部</th>
+                    <th>班级</th>
+                    <th>姓名</th>
+                    <th>早温</th>
+                    <th>午温</th>
+                    <th>晚温</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody th:each="u:${studentList}">
+                <td  th:text=${u.id}></td>
+                <td  th:text=${u.department}></td>
+                <td  th:text=${u.class}></td>
+                <td  th:text=${u.name}></td>
+                <td  th:text=${u.tempretrue1}></td>
+                <td  th:text=${u.tempretrue2}></td>
+                <td  th:text=${u.tempretrue3}></td>
+
+                <td>
+                    <a class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil">修改</span></a>
+                    <a class="btn btn-danger btn-xs" id="stu-but-del" th:href="@{/del(id=${u.id})}"><span class="glyphicon glyphicon-trash">删除</span></a>
+                </td>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $("#stu_add_modal_btn").click(function(){
+            //点击新增按钮提弹出新增界面
+            $("#stuAddModal").modal({
+                backdrop:"static"
+
+            });
+        });
+    </script>
+
+<!-- Modal -->
+    <div class="modal fade" id="stuAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog"  style="pointer-events:auto">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">增加学生</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">系部</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="department" class="form-control" id="input_department" placeholder="请输入系部名">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">班级</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="className" class="form-control" id="input_className" placeholder="请输入班级名">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">姓名</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="name" id="input_name" placeholder="请输入姓名">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">早温</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="tempretrue1" id="input_tempretrue1" placeholder="请输入早温">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">午温</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="tempretrue2" id="input_tempretrue2" placeholder="请输入午温">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">晚温</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="tempretrue3" id="input_tempretrue3" placeholder="请输入午温">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="save_stu_btn">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $("#save_stu_btn").click(function(){
+            //alert("Hello");
+
+            //发送ajax请求
+            $.ajax({
+                url:"add",
+                type:"POSt",
+                data:$("#stuAddModal form").serialize(),
+                success:function(result){
+                    alert(result.msg);
+                    $("#stuAddModal").modal('hide');
+                    to_page(9999);
+                }
+            });
+        });
+    </script>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.han.mapper.StudentMapper">
+    <select id="All" resultType="student">
+        select * from tbl_student
+    </select>
+    <delete id="del" parameterType="student">
+        delete from tbl_student where id = #{id}
+    </delete>
+    <insert id="save" parameterType="com.han.pojo.Student" keyProperty="id" useGeneratedKeys="true">
+        insert into tbl_student(id,department, class, name, tempretrue1, tempretrue2,tempretrue3)
+        values(#{id},#{department},#{className}, #{name}, #{tempretrue1}, #{tempretrue2}, #{tempretrue3})
+    </insert>
+</mapper>
